@@ -29,6 +29,8 @@ fn main () {
     let R_eX = secp256k1_ec_add_syscall(R_point, eX).unwrap_syscall();
 
     if sG == R_eX {
-       'Verified'.print();
-      }
+        'Verified'.print();
+    } else {
+        'Failed'.print();
+    }
 }
