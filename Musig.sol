@@ -60,12 +60,18 @@ contract Schnorr {
     bytes32 hashResult = sha256(data);
     return hashResult;
   }
-  
-  function calculateHashAndSum() public view returns(bytes32) {
+ 
+  function calculateHashAndSum() public view returns (uint256) {
     (uint256 aliceX, ) = AderivePubKeyAlice();
     (uint256 bobX, ) = BderivePubKeyBob();
     bytes32 hashResult = sumAndHash(aliceX, bobX);
-    return hashResult;
+
+    uint256 decimalResult = 0;
+    for (uint256 i = 0; i < 32; i++) {
+      decimalResult += uint256(uint8(hashResult[i])) * (2**(8 * (32 - i - 1)));
+    }
+
+    return decimalResult;
   }
-  
+
 }
