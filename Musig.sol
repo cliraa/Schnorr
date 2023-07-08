@@ -74,4 +74,17 @@ contract Schnorr {
     return decimalResult;
   }
 
+  function calculateFinalHash2() public view returns (uint256) {
+    (uint256 bobX, ) = BderivePubKeyBob(); 
+    uint256 decimalResult = calculateHashAndSum();
+    bytes32 hashResult = sumAndHash(bobX, decimalResult);
+
+    uint256 decimalFinalResult2 = 0;
+    for (uint256 i = 0; i < 32; i++) {
+      decimalFinalResult2 += uint256(uint8(hashResult[i])) * (2**(8 * (32 - i - 1)));
+    }
+
+    return decimalFinalResult2;
+  }
+
 }
