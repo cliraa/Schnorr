@@ -87,4 +87,27 @@ contract Schnorr {
     return decimalFinalResult2;
   }
 
+  function calculatexa() view public returns (uint256, uint256) { 
+    uint256 decimalResult = calculateFinalHash();  
+ 
+    (uint256 XCoor, uint256 YCoor) = AderivePubKeyAlice();
+  
+    return EllipticCurve.ecMul(decimalResult, XCoor, YCoor, AA, PP);
+  }
+
+  function calculatexb() view public returns (uint256, uint256) {
+    (uint256 bobX, uint256 bobY) = BderivePubKeyBob();
+
+    uint256 decimalResult = calculateFinalHash2();
+
+    return EllipticCurve.ecMul(decimalResult, bobX, bobY, AA, PP);
+  }
+
+  function generatex() public view returns (uint256, uint256) {
+    (uint256 xa, uint256 ya) = calculatexa();
+    (uint256 xb, uint256 yb) = calculatexb();
+
+    return EllipticCurve.ecAdd(xa, ya, xb, yb, AA, PP);
+  }
+
 }
